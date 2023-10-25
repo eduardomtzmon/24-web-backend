@@ -7,8 +7,10 @@ class Server {
         this.app = express()
         this.port = process.env.PORT || 3001
         this.Database = new Database()
+        this.usersPath = '/api/usuarios'
         this.middlewares()
         this.dbConnection()
+        this.router()
     }
 
     async dbConnection() {
@@ -25,6 +27,10 @@ class Server {
         this.app.use(express.urlencoded({extended:false}))
         // Con esto le digo al server que aqui tenemos lo que vamos a mostrar
         this.app.use(express.static('public'))
+    }
+
+    router() {
+        this.app.use(this.usersPath, require('./routes/users.routes'))
     }
 
     listen(){
