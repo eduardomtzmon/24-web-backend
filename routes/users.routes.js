@@ -8,7 +8,7 @@ const router = Router()
 
 router.post("/", createUser)     // C create         
 router.get("/", getUser)           // R read
-router.put("/:userId")    // U update
-router.delete("/:userId") // D delete
+router.put("/:userId", updateUser)    // U update
+router.delete("/:userId", deleteUser) // D delete
 
 module.exports = router

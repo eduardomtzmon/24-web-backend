@@ -37,16 +37,40 @@ const getUser = async (req, res) => {
     }
 }
 
-const updateUser = (req, res) => {
-    res.json({
-        msg: 'Update users'
-    })
+const updateUser = async (req, res) => {
+    try {
+        const {params, body} = req
+        const { userId } = params
+        console.log(userId)
+        // Este findByIdAndUpdate es una función predefinida de mongoose
+        const user = await User.findByIdAndUpdate(userId, body)
+        res.status(202).json({
+            msg: 'User updated'
+        })
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error al actualizar el usuario',
+            error
+        })
+    }
+    
 }
 
-const deleteUser = (req, res) => {
-    res.json({
-        msg: 'Borrar users desde controller'
-    })
+const deleteUser = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const deleteState = {"active":false}
+        const user = await User.findByIdAndUpdate(userId, deleteState)
+        const userToShow = await User.findById(userId)
+        res.status(201).json({
+            msg: 'Usuario deleteado',
+            user
+        })
+    } catch (error) {
+        res.json(500).json({
+            msg: 'Borrar users desde controller'
+        })
+    }
 }
 
 module.exports = {
