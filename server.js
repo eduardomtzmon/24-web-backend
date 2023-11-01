@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const Database = require('./db/config')
+const {errors} = require('celebrate')
 
 class Server {
     constructor(){
@@ -18,7 +19,6 @@ class Server {
     }
 
     middlewares(){
-        console.log('somebody once told me');
         // Cors asegura los endpoints cuando hacemos peticiones desde el frontend
         this.app.use(cors())
         // Este middleware express.json nos ayuda a recibir e interpretar jsons
@@ -30,7 +30,7 @@ class Server {
     }
 
     router() {
-        this.app.use(this.usersPath, require('./routes/users.routes'))
+        this.app.use(this.usersPath, require('./routes/users.routes'), errors())
     }
 
     listen(){
